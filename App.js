@@ -12,7 +12,7 @@ import { firebaseConfig } from './settings';
 
 export default class App extends Component {
   componentWillMount(){
-    // Initialiser Firebase ici
+    firebase.initializeApp(firebaseConfig);
   }
 
   render() {
