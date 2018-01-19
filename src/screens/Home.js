@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 
 class Home extends Component {
+  onRegister = () => {
+    this.props.navigation.navigate('Register');
+  };
 
   render() {
     return (
@@ -9,6 +12,10 @@ class Home extends Component {
         <Text>
           PAGE HOME
         </Text>
+        <Button
+          onPress={() => this.onRegister()}
+          title="S'inscrire"
+        />
       </View>
     );
   }
