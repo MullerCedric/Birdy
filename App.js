@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 // import de composants ici
 
@@ -8,7 +8,7 @@ import {createStore} from 'redux';
 import reducers from './src/reducers';
 
 import firebase from 'firebase';
-import { firebaseConfig } from '~/settings';
+import { firebaseConfig } from './settings';
 
 export default class App extends Component {
   componentWillMount(){
@@ -19,7 +19,9 @@ export default class App extends Component {
     return (
       <Provider store={createStore(reducers)}>
         <View>
-          // composant
+          <Text>
+            Hello world!
+          </Text>
         </View>
       </Provider>
     );
