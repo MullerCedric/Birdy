@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
-// import de composants ici
-
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import reducers from './src/reducers';
 
 import firebase from 'firebase';
 import { firebaseConfig } from './settings';
+
+import Navigator from './src/config/routes';
 
 export default class App extends Component {
   componentWillMount(){
@@ -18,11 +18,7 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={createStore(reducers)}>
-        <View>
-          <Text>
-            Hello world!
-          </Text>
-        </View>
+        <Navigator onNavigationStateChange={null} />
       </Provider>
     );
   }
