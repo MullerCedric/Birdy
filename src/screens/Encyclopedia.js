@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 
 class Encyclopedia extends Component {
+  onAbout = () => {
+    this.props.navigation.navigate('AboutThatBird');
+  };
 
   render() {
     return (
@@ -9,6 +12,10 @@ class Encyclopedia extends Component {
         <Text>
           PAGE ENCYCLOPEDIA
         </Text>
+        <Button
+          onPress={() => this.onAbout()}
+          title="En savoir plus sur cet oiseau"
+        />
       </View>
     );
   }

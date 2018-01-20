@@ -6,6 +6,9 @@ import Encyclopedia from '../screens/Encyclopedia';
 import AllLists from '../screens/AllLists';
 
 import Register from '../screens/Register';
+import AddBirds from '../screens/AddBirds';
+import MyLists from '../screens/MyLists';
+import AboutThatBird from '../screens/AboutThatBird';
 
 export const HomeStack = StackNavigator({
   Home: {
@@ -20,6 +23,42 @@ export const HomeStack = StackNavigator({
       title: 'S\'enregistrer',
     },
   },
+  AddBirds: {
+    screen: AddBirds,
+    navigationOptions: {
+      title: 'Nouvelle session de bagages',
+    },
+  },
+});
+
+export const EncyStack = StackNavigator({
+  Encyclopedia: {
+    screen: Encyclopedia,
+    navigationOptions: {
+      title: 'Encyclopédie',
+    },
+  },
+  AboutThatBird: {
+    screen: AboutThatBird,
+    navigationOptions: {
+      title: 'Plus sur cet oiseau', //`${navigation.state.params.name.first.toUpperCase()} ${navigation.state.params.name.last.toUpperCase()}`,
+    },
+  },
+});
+
+export const ListsStack = StackNavigator({
+  AllLists: {
+    screen: AllLists,
+    navigationOptions: {
+      title: 'Toutes les captures',
+    },
+  },
+  MyLists: {
+    screen: MyLists,
+    navigationOptions: {
+      title: 'Mes captures',
+    },
+  },
 });
 
 export default TabNavigator(
@@ -31,13 +70,13 @@ export default TabNavigator(
       },
     },
     Encyclopedia: {
-      screen: Encyclopedia,
+      screen: EncyStack,
       navigationOptions: {
         tabBarLabel: 'Encyclopédie',
       },
     },
     AllLists: {
-      screen: AllLists,
+      screen: ListsStack,
       navigationOptions: {
         tabBarLabel: 'Listes',
       },

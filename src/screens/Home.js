@@ -6,6 +6,14 @@ class Home extends Component {
     this.props.navigation.navigate('Register');
   };
 
+  onAdd = () => {
+    this.props.navigation.navigate('AddBirds');
+  };
+
+  onLists = () => {
+    this.props.navigation.navigate('MyLists');
+  };
+
   render() {
     return (
       <View>
@@ -15,6 +23,14 @@ class Home extends Component {
         <Button
           onPress={() => this.onRegister()}
           title="S'inscrire"
+        />
+        <Button
+          onPress={() => this.onAdd()}
+          title="Nouvelle session de bagages"
+        />
+        <Button
+          onPress={() => this.onLists()}
+          title="Mes captures"
         />
       </View>
     );
