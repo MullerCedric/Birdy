@@ -1,18 +1,19 @@
-import { StatusBar } from 'react-native';
 import { StackNavigator, TabNavigator } from 'react-navigation';
+
+import SignIn from '../screens/SignIn';
+import Register from '../screens/Register';
 
 import Home from '../screens/Home';
 import Encyclopedia from '../screens/Encyclopedia';
 import AllLists from '../screens/AllLists';
 
-import Register from '../screens/Register';
 import AddBirds from '../screens/AddBirds';
 import MyLists from '../screens/MyLists';
 import AboutThatBird from '../screens/AboutThatBird';
 
-export const HomeStack = StackNavigator({
-  Home: {
-    screen: Home,
+export const SignedOutHomeStack = StackNavigator({
+  SignIn: {
+    screen: SignIn,
     navigationOptions: {
       title: 'Se connecter',
     },
@@ -23,6 +24,15 @@ export const HomeStack = StackNavigator({
       title: 'S\'enregistrer',
     },
   },
+});
+
+const SignedInHomeStack = StackNavigator({
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      title: 'Vous êtes connecté !',
+    },
+  },
   AddBirds: {
     screen: AddBirds,
     navigationOptions: {
@@ -31,7 +41,7 @@ export const HomeStack = StackNavigator({
   },
 });
 
-export const EncyStack = StackNavigator({
+const EncyStack = StackNavigator({
   Encyclopedia: {
     screen: Encyclopedia,
     navigationOptions: {
@@ -46,7 +56,7 @@ export const EncyStack = StackNavigator({
   },
 });
 
-export const ListsStack = StackNavigator({
+const ListsStack = StackNavigator({
   AllLists: {
     screen: AllLists,
     navigationOptions: {
@@ -61,25 +71,46 @@ export const ListsStack = StackNavigator({
   },
 });
 
-export default TabNavigator(
+const MainTabs = TabNavigator( //root-most navigation stack imported in App.js
   {
-    Home: {
-      screen: HomeStack,
+    SignedInHomeStack: {
+      screen: SignedInHomeStack,
       navigationOptions: {
-        tabBarLabel: 'Connexion',
+        tabBarLabel: 'Connecté',
       },
     },
-    Encyclopedia: {
+    EncyStack: {
       screen: EncyStack,
       navigationOptions: {
         tabBarLabel: 'Encyclopédie',
       },
     },
-    AllLists: {
+    ListsStack: {
       screen: ListsStack,
       navigationOptions: {
         tabBarLabel: 'Listes',
       },
     },
   }
+);
+
+export default StackNavigator(
+  {
+      SignedOut: {
+        screen: SignedOutHomeStack,
+        navigationOptions: {
+          gesturesEnabled: false
+        }
+      },
+      SignedIn: {
+        screen: MainTabs,
+        navigationOptions: {
+          gesturesEnabled: false
+        }
+      }
+    },
+    {
+      headerMode: "none",
+      mode: "modal",
+    }
 );
