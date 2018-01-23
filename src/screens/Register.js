@@ -1,3 +1,21 @@
+/*
+	M. Parmentier : 
+	pour que vous puissiez tester une inscription valide,
+	il vous faut un isn valide qui existe dans ma base de donnée firebase
+	/!\ Une fois utilisé, l'isn est supprimé de la BDD donc vous devrez utiliser un autre
+	{
+		"AI84BP": "AI84BP",
+		"PQ41LC": "PQ41LC",
+		"MB11XO": "MB11XO",
+		"QI78AO": "QI78AO",
+		"FA57SQ": "FA57SQ",
+		"GN63RE": "GN63RE",
+		"RP15KL": "RP15KL",
+		"BJ49FO": "BJ49FO",
+		"JS72DZ": "JS72DZ",
+		"OI20WS": "OI20WS"
+	}
+*/
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
 import { connect } from 'react-redux';
