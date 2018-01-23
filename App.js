@@ -22,11 +22,6 @@ class App extends Component {
         })
     }
 
-    componentWillUpdate(nextProps) {
-        console.log('!!!!!UPDATE!!!!!');
-        console.log(nextProps);
-    }
-
     componentWillUnmount() {
         if (Platform.OS === 'android') BackHandler.removeEventListener('hardwareBackPress')
     }
@@ -42,10 +37,7 @@ class App extends Component {
 }
 
 
-//const mapStateToProps = ({ nav }) => ({ nav })
-const mapStateToProps = state => {
-  return { nav: state.nav, auth: state.auth }; // On rajoute auth juste pour voir en log le user
-};
+const mapStateToProps = ({ nav }) => ({ nav })
 const RootNavigationStack = connect(mapStateToProps)(App);
 
 const Root = () => (

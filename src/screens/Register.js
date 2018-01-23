@@ -1,16 +1,166 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
+import { connect } from 'react-redux';
+import {
+  newEmailChanged,
+  newPasswordChanged,
+  firstChanged,
+  lastChanged,
+  isnChanged,
+  registerUser
+} from '../actions';
+import { Card, CardSection, Input, Spinner } from '../components';
 
 class Register extends Component {
+  onEmailChange(text) {
+    this.props.newEmailChanged(text);
+  }
+
+  onPasswordChange(text) {
+    this.props.newPasswordChanged(text);
+  }
+
+  onFirstChange(text) {
+    this.props.firstChanged(text);
+  }
+
+  onLastChange(text) {
+    this.props.lastChanged(text);
+  }
+
+  onIsnChange(text) {
+    this.props.isnChanged(text);
+  }
+
+  onRegister() {
+    const {
+	  email,
+	  password,
+	  firstName,
+	  lastName,
+	  isnNumber
+	} = this.props;
+
+    this.props.registerUser({
+	  email,
+	  password,
+	  firstName,
+	  lastName,
+	  isnNumber
+	});
+  }
+
+  renderRegisterButton() {
+    if (this.props.loading) {
+      return <Spinner size="large" />;
+    }
+
+    return (
+      <Button
+      	onPress={this.onRegister.bind(this)}
+      	title="S'inscrire"
+      />
+    );
+  }
 
   render() {
     return (
       <View>
-        <Text>
-          PAGE REGISTER
-        </Text>
+        <Card>
+          <CardSection>
+            <Input
+              label="Email"
+              placeholder="email@gmail.com"
+              onChangeText={this.onEmailChange.bind(this)}
+              value={this.props.email}
+            />
+          </CardSection>
+
+          <CardSection>
+            <Input
+              secureTextEntry
+              label="Mot de passe"
+              placeholder="password"
+              onChangeText={this.onPasswordChange.bind(this)}
+              value={this.props.password}
+            />
+          </CardSection>
+
+          <CardSection>
+            <Input
+              label="Prénom"
+              placeholder="John"
+              onChangeText={this.onFirstChange.bind(this)}
+              value={this.props.firstName}
+            />
+          </CardSection>
+
+          <CardSection>
+            <Input
+              label="Nom"
+              placeholder="Doe"
+              onChangeText={this.onLastChange.bind(this)}
+              value={this.props.lastName}
+            />
+          </CardSection>
+
+          <CardSection>
+            <Input
+              label="Numéro ISN"
+              placeholder="VX01YZ"
+              onChangeText={this.onIsnChange.bind(this)}
+              value={this.props.isnNumber}
+            />
+          </CardSection>
+
+          <Text style={styles.errorTextStyle}>
+            {this.props.error}
+          </Text>
+
+          <CardSection>
+            {this.renderRegisterButton()}
+          </CardSection>
+        </Card>
       </View>
     );
   }
 }
-export default Register;
+
+const styles = {
+  errorTextStyle: {
+    fontSize: 20,
+    alignSelf: 'center',
+    color: 'red'
+  }
+};
+
+const mapStateToProps = ({ register }) => {
+  const {
+  	email,
+  	password,
+  	firstName,
+  	lastName,
+  	isnNumber,
+  	error,
+  	loading
+  } = register;
+
+  return {
+  	email,
+  	password,
+  	firstName,
+  	lastName,
+  	isnNumber,
+  	error,
+  	loading
+  };
+};
+
+export default connect(mapStateToProps, {
+  newEmailChanged,
+  newPasswordChanged,
+  firstChanged,
+  lastChanged,
+  isnChanged,
+  registerUser
+})(Register);
