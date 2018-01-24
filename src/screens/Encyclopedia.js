@@ -29,6 +29,7 @@ class Encyclopedia extends Component {
             </View>
           </TouchableWithoutFeedback>
         )}
+        keyExtractor={(item) => item.uid}
       />
     );
   }
