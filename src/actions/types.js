@@ -15,3 +15,5 @@ export const ISN_CHANGED = 'isn_changed';
 export const REGISTERING_USER = 'registering_user';
 export const REGISTER_USER_SUCCESS = 'register_user_success';
 export const REGISTER_USER_FAIL = 'register_user_fail';
+
+export const INFOS_FETCH_SUCCESS = 'infos_fetch_success';
