@@ -2,6 +2,7 @@ import firebase from 'firebase';
 import { NavigationActions } from 'react-navigation';
 import {
   LIST_CHANGED,
+  BIRD_ADDED,
   BIRDS_CHANGED,
   SEND_LIST_SUCCESS,
   SEND_LIST_FAIL,
@@ -14,10 +15,14 @@ export const listChanged = ({ prop, value }) => {
   };
 };
 
+export const birdAdded = (birds) => {
+  return {
+    type: BIRD_ADDED,
+    payload: birds
+  };
+};
+
 export const birdsChanged = ({ prop, value }) => {
-  /*
-    !!! This function isn't coded yet !!!
-  */
   return {
     type: BIRDS_CHANGED,
     payload: { prop, value }

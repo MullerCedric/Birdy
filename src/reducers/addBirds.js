@@ -1,5 +1,6 @@
 import {
   LIST_CHANGED,
+  BIRD_ADDED,
   BIRDS_CHANGED,
   SEND_LIST_SUCCESS,
   SEND_LIST_FAIL,
@@ -8,11 +9,7 @@ import {
 const INITIAL_STATE = {
   location: '',
   catchType: '',
-  birds: {
-    0: {
-      name: 'Hello'
-    }
-  },
+  birds: {},
   error: ''
 };
 
@@ -20,6 +17,8 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LIST_CHANGED:
       return { ...state, [action.payload.prop]: action.payload.value };
+    case BIRD_ADDED:
+      return { ...state, birds: action.payload };
     case SEND_LIST_SUCCESS:
       return { ...INITIAL_STATE };
     case SEND_LIST_FAIL:

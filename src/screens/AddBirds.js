@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { ScrollView, View, Text, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
-import { listChanged, sendList } from '../actions';
+import _ from 'lodash';
+import { listChanged, birdAdded, sendList } from '../actions';
 import { Card, CardSection, Input, Button } from '../components';
 
 class AddBirds extends Component {
@@ -11,9 +12,32 @@ class AddBirds extends Component {
     this.props.sendList({ location, catchType, birds });
   }
 
+  onNewBirdForm() {
+    const { birds } = this.props;
+    let idBird = 0;
+    if( !_.isEmpty(birds) ) {
+      idBird = parseInt(_.findLastKey(birds)) + 1;
+    }
+
+    birds[idBird] = {
+      caughtBack: false,
+      ring: 'E5152',
+      latinName: 'Wingardium Leviosa',
+      ringType: 'gold',
+      wingspan: '15cm',
+    };
+
+    this.props.birdAdded(birds);
+  }
+
+  onRowPress() {
+  	console.log('You tapped a bird!');
+  }
+
   render() {
+  	console.log(this.props.birds);
     return (
-      <View>
+      <ScrollView>
         <Card>
           <CardSection>
             <Input
@@ -33,6 +57,29 @@ class AddBirds extends Component {
             />
           </CardSection>
 
+          <CardSection>
+            <Button onPress={this.onNewBirdForm.bind(this)}>
+              Ajouter un oiseau
+            </Button>
+          </CardSection>
+
+
+          <FlatList
+            data={this.props.birds}
+            extraData={this.props}
+            renderItem={({ item }) => (
+              <TouchableWithoutFeedback onPress={() => this.onRowPress(item)}>
+                <View>
+                  <CardSection>
+                    <Text>
+                      Bird ! {item.ring}
+                    </Text>
+                  </CardSection>
+                </View>
+              </TouchableWithoutFeedback>
+            )}
+            keyExtractor={(item) => item.uid}
+          />
 
 
           <Text style={styles.errorTextStyle}>
@@ -45,7 +92,7 @@ class AddBirds extends Component {
             </Button>
           </CardSection>
         </Card>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -59,9 +106,14 @@ const styles = {
 };
 
 const mapStateToProps = ({addBirds}) => {
-  const { location, catchType, birds, error } = addBirds;
+  const { location, catchType, error } = addBirds;
+
+  console.log('-- mapStateToProps --');
+  const birds = _.map(addBirds.birds, (val, uid) => {
+    return { ...val, uid };
+  });
 
   return { location, catchType, birds, error };
 };
 
-export default connect(mapStateToProps, { listChanged, sendList })(AddBirds);
+export default connect(mapStateToProps, { listChanged, birdAdded, sendList })(AddBirds);
