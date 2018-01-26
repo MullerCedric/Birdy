@@ -19,7 +19,9 @@ export const REGISTER_USER_FAIL = 'register_user_fail';
 export const INFOS_FETCH_SUCCESS = 'infos_fetch_success';
 
 export const LIST_CHANGED = 'list_changed';
+export const UPDATE_LOCATION = 'update_location';
 export const BIRD_ADDED = 'bird_added';
+export const SELECT_BIRD = 'select_bird';
 export const BIRDS_CHANGED = 'birds_changed';
 export const SEND_LIST_SUCCESS = 'send_list_success';
 export const SEND_LIST_FAIL = 'send_list_fail';

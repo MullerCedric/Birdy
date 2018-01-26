@@ -1,19 +1,42 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, FlatList, TouchableWithoutFeedback } from 'react-native';
+import { ScrollView, Text, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { listChanged, birdAdded, sendList } from '../actions';
+import Permissions from 'react-native-permissions'
+import { listChanged, updateLocation, birdAdded, sendList } from '../actions';
 import { Card, CardSection, Input, Button } from '../components';
+import DropDown from '../components/DropDown';
 
 class AddBirds extends Component {
-  onSendList() {
-    const { location, catchType, birds } = this.props;
 
-    this.props.sendList({ location, catchType, birds });
+  requestPermission = () => {
+    Permissions.request('location').then(response => {
+      if(response !== 'authorized') {
+        alert('Vous n\'avez pas autorisé l\'application à accéder à votre position');
+      }
+    })
+  }
+
+  onMyPos() {
+    this.requestPermission();
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = (Math.round(position.coords.latitude * 100)/100).toFixed(2)
+        const long = (Math.round(position.coords.longitude * 100)/100).toFixed(2)
+
+        const currentPos = lat + ', ' + long;
+        this.props.updateLocation(currentPos);
+      },
+      (error) => {
+        console.log(error);
+        alert('Impossible d\'accéder à votre position');
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
   }
 
   onNewBirdForm() {
-    const { birds } = this.props;
+    const { birds, birdAdded } = this.props;
     let idBird = 0;
     if( !_.isEmpty(birds) ) {
       idBird = parseInt(_.findLastKey(birds)) + 1;
@@ -21,21 +44,26 @@ class AddBirds extends Component {
 
     birds[idBird] = {
       caughtBack: false,
-      ring: 'E5152',
-      latinName: 'Wingardium Leviosa',
-      ringType: 'gold',
-      wingspan: '15cm',
+      ring: '',
+      latinName: 'Nouvel oiseau',
+      ringType: '',
+      wingspan: '',
+      weight: '',
+      adiposity: '',
+      sex: '',
+      age:''
     };
 
-    this.props.birdAdded(birds);
+    birdAdded(birds);
   }
 
-  onRowPress() {
-  	console.log('You tapped a bird!');
+  onSendList() {
+    const { location, catchType, birds, sendList } = this.props;
+
+    sendList({ location, catchType, birds });
   }
 
   render() {
-  	console.log(this.props.birds);
     return (
       <ScrollView>
         <Card>
@@ -46,6 +74,9 @@ class AddBirds extends Component {
               value={this.props.location}
               onChangeText={value => this.props.listChanged({ prop: 'location', value })}
             />
+            <Button onPress={this.onMyPos.bind(this)}>
+              Ma position actuelle
+            </Button>
           </CardSection>
           
           <CardSection>
@@ -68,15 +99,7 @@ class AddBirds extends Component {
             data={this.props.birds}
             extraData={this.props}
             renderItem={({ item }) => (
-              <TouchableWithoutFeedback onPress={() => this.onRowPress(item)}>
-                <View>
-                  <CardSection>
-                    <Text>
-                      Bird ! {item.ring}
-                    </Text>
-                  </CardSection>
-                </View>
-              </TouchableWithoutFeedback>
+              <DropDown bird={ item } />
             )}
             keyExtractor={(item) => item.uid}
           />
@@ -108,7 +131,6 @@ const styles = {
 const mapStateToProps = ({addBirds}) => {
   const { location, catchType, error } = addBirds;
 
-  console.log('-- mapStateToProps --');
   const birds = _.map(addBirds.birds, (val, uid) => {
     return { ...val, uid };
   });
@@ -116,4 +138,4 @@ const mapStateToProps = ({addBirds}) => {
   return { location, catchType, birds, error };
 };
 
-export default connect(mapStateToProps, { listChanged, birdAdded, sendList })(AddBirds);
+export default connect(mapStateToProps, { listChanged, updateLocation, birdAdded, sendList })(AddBirds);

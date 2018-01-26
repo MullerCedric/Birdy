@@ -2,7 +2,9 @@ import firebase from 'firebase';
 import { NavigationActions } from 'react-navigation';
 import {
   LIST_CHANGED,
+  UPDATE_LOCATION,
   BIRD_ADDED,
+  SELECT_BIRD,
   BIRDS_CHANGED,
   SEND_LIST_SUCCESS,
   SEND_LIST_FAIL,
@@ -15,6 +17,13 @@ export const listChanged = ({ prop, value }) => {
   };
 };
 
+export const updateLocation = (pos) => {
+  return {
+    type: UPDATE_LOCATION,
+    payload: pos
+  };
+};
+
 export const birdAdded = (birds) => {
   return {
     type: BIRD_ADDED,
@@ -22,10 +31,17 @@ export const birdAdded = (birds) => {
   };
 };
 
-export const birdsChanged = ({ prop, value }) => {
+export const selectBird = (birdUid) => {
+  return {
+    type: SELECT_BIRD,
+    payload: birdUid
+  };
+};
+
+export const birdsChanged = ({ uid, prop, value }) => {
   return {
     type: BIRDS_CHANGED,
-    payload: { prop, value }
+    payload: { uid, prop, value }
   };
 };
 
