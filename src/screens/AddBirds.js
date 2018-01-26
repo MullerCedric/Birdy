@@ -31,7 +31,7 @@ class AddBirds extends Component {
         console.log(error);
         alert('Impossible d\'accéder à votre position');
       },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 1000 },
     );
   }
 
@@ -128,10 +128,10 @@ const styles = {
   }
 };
 
-const mapStateToProps = ({addBirds}) => {
-  const { location, catchType, error } = addBirds;
+const mapStateToProps = ({lists}) => {
+  const { location, catchType, error } = lists;
 
-  const birds = _.map(addBirds.birds, (val, uid) => {
+  const birds = _.map(lists.birds, (val, uid) => {
     return { ...val, uid };
   });
 

@@ -160,8 +160,8 @@ const styles = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const expanded = state.addBirds.selectedBird === ownProps.bird.uid;
-  const { birds } = state.addBirds;
+  const expanded = state.lists.selectedBird === ownProps.bird.uid;
+  const { birds } = state.lists;
 
   return { expanded, birds };
 };

@@ -1,23 +1,60 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, FlatList, TouchableWithoutFeedback } from 'react-native';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import { fetchLists } from '../actions';
+import { CardSection } from '../components';
 
 class AllLists extends Component {
-  onMine = () => {
-    this.props.navigation.navigate('MyLists');
-  };
+  componentWillMount() {
+    this.props.fetchLists();
+  }
+
+  onRowPress (bird) {
+    this.props.navigation.navigate('MyLists', { ...bird });
+  }
 
   render() {
     return (
-      <View>
-        <Text>
-          PAGE ALLLISTS
-        </Text>
-        <Button
-          onPress={() => this.onMine()}
-          title="Mes captures"
-        />
-      </View>
+      <FlatList
+        data={this.props.existingLists}
+        renderItem={({ item }) => {
+          const captureDate = new Date(item.captureDate);
+          return (
+            <TouchableWithoutFeedback onPress={() => this.onRowPress(item)}>
+              <View>
+                <CardSection>
+                  <Text style={styles.titleStyle}>
+                    Liste du {captureDate.getDate()}/{captureDate.getMonth() + 1}/{captureDate.getFullYear()}
+                  </Text>
+                </CardSection>
+              </View>
+            </TouchableWithoutFeedback>
+          );
+        }
+      }
+        keyExtractor={(item) => item.uid}
+        refreshing={this.props.refreshing}
+        onRefresh={this.props.fetchLists}
+      />
     );
   }
 }
-export default AllLists;
+
+const styles = {
+  titleStyle: {
+    fontSize: 18,
+    paddingLeft: 15
+  }
+};
+
+const mapStateToProps = ({lists}) => {
+  const { allLists, refreshing } = lists;
+  const existingLists = _.map(allLists, (val, uid) => {
+    return { ...val, uid };
+  });
+
+  return { existingLists, refreshing };
+};
+
+export default connect(mapStateToProps, { fetchLists })(AllLists);

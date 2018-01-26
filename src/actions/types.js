@@ -25,3 +25,4 @@ export const SELECT_BIRD = 'select_bird';
 export const BIRDS_CHANGED = 'birds_changed';
 export const SEND_LIST_SUCCESS = 'send_list_success';
 export const SEND_LIST_FAIL = 'send_list_fail';
+export const FETCH_LISTS = 'fetch_lists';

@@ -8,6 +8,7 @@ import {
   BIRDS_CHANGED,
   SEND_LIST_SUCCESS,
   SEND_LIST_FAIL,
+  FETCH_LISTS
 } from './types';
 
 export const listChanged = ({ prop, value }) => {
@@ -55,7 +56,7 @@ export const sendList = ({ location, catchType, birds }) => {
     firebase.database().ref('/lists')
       .push({
         userId,
-        now,
+        captureDate: now,
         location,
         catchType,
         birds
@@ -72,5 +73,14 @@ export const sendList = ({ location, catchType, birds }) => {
         console.log('List issue: ' + error);
       });
 
+  };
+};
+
+export const fetchLists = () => {
+  return (dispatch) => {
+    firebase.database().ref('/lists')
+      .on('value', snapshot => {
+        dispatch({ type: FETCH_LISTS, payload: snapshot.val() });
+      });
   };
 };

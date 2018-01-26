@@ -6,6 +6,7 @@ import {
   BIRDS_CHANGED,
   SEND_LIST_SUCCESS,
   SEND_LIST_FAIL,
+  FETCH_LISTS
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -13,7 +14,9 @@ const INITIAL_STATE = {
   catchType: '',
   birds: {},
   error: '',
-  selectedBird: null
+  selectedBird: null,
+  allLists: {},
+  refreshing: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -34,6 +37,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...INITIAL_STATE };
     case SEND_LIST_FAIL:
       return { ...state, error: action.payload };
+    case FETCH_LISTS:
+      return { ...state, allLists: action.payload };
     default:
       return state;
   }
