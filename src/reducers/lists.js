@@ -6,7 +6,8 @@ import {
   SEND_LIST_SUCCESS,
   SEND_LIST_FAIL,
   FETCH_LISTS,
-  CHANGE_EDITABLE
+  CHANGE_EDITABLE,
+  RESET_STATE
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -39,6 +40,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, allLists: action.payload };
     case CHANGE_EDITABLE:
       return { ...state, isEditable: action.payload };
+    case RESET_STATE:
+      return { ...INITIAL_STATE, allLists: state.allLists };
     default:
       return state;
   }

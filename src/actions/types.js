@@ -26,3 +26,4 @@ export const SEND_LIST_SUCCESS = 'send_list_success';
 export const SEND_LIST_FAIL = 'send_list_fail';
 export const FETCH_LISTS = 'fetch_lists';
 export const CHANGE_EDITABLE = 'change_editable';
+export const RESET_STATE = 'reset_state';

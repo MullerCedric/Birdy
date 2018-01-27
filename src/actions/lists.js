@@ -8,7 +8,8 @@ import {
   SEND_LIST_SUCCESS,
   SEND_LIST_FAIL,
   FETCH_LISTS,
-  CHANGE_EDITABLE
+  CHANGE_EDITABLE,
+  RESET_STATE
 } from './types';
 
 export const listChanged = ({ prop, value }) => {
@@ -82,5 +83,11 @@ export const setEditable = (bool)  => {
   return {
     type: CHANGE_EDITABLE,
     payload: bool
+  };
+};
+
+export const resetState = () => {
+  return {
+    type: RESET_STATE
   };
 };

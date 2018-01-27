@@ -7,11 +7,11 @@ import { CardSection } from '../components';
 
 class AllLists extends Component {
   componentWillMount() {
+    console.log('AllLists.js MOUNT ! ');
     this.props.fetchLists();
   }
 
   onListPress(list) {
-    console.log('TATA');
     this.props.navigation.navigate('AddBirds', { ...list });
   }
 

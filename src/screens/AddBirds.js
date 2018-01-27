@@ -3,7 +3,7 @@ import { ScrollView, Text, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Permissions from 'react-native-permissions'
-import { listChanged, updateLocation, birdAdded, birdsChanged, sendList, setEditable } from '../actions';
+import { listChanged, updateLocation, birdAdded, birdsChanged, sendList, setEditable, resetState } from '../actions';
 import { Card, CardSection, Lever, Input, Button } from '../components';
 import DropDown from '../components/DropDown';
 
@@ -20,7 +20,12 @@ class AddBirds extends Component {
   componentWillMount() {
     if(typeof this.props.navigation.state.params !== 'undefined') {
       this.props.setEditable(false);
+
+      _.each(this.props.navigation.state.params, (value, prop) => {
+        this.props.listChanged({ prop, value });
+      });
     } else {
+      this.props.resetState();
       this.props.setEditable(true);
     }
   }
@@ -261,4 +266,4 @@ const mapStateToProps = ({lists}, ownProps) => {
   return { isEditable, location, catchType, birds, error };
 };
 
-export default connect(mapStateToProps, { listChanged, updateLocation, birdAdded, birdsChanged, sendList, setEditable })(AddBirds);
+export default connect(mapStateToProps, { listChanged, updateLocation, birdAdded, birdsChanged, sendList, setEditable, resetState })(AddBirds);

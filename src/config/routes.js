@@ -33,12 +33,6 @@ const SignedInHomeStack = StackNavigator({
       title: 'Vous êtes connecté !',
     },
   },
-  AddBirds: {
-    screen: AddBirds,
-    navigationOptions: {
-      title: 'Nouvelle session de bagages',
-    },
-  },
 });
 
 const EncyStack = StackNavigator({
@@ -68,6 +62,12 @@ const ListsStack = StackNavigator({
     navigationOptions: {
       title: 'Mes captures',
     },
+  },
+  AddBirds: {
+    screen: AddBirds,
+    navigationOptions: ({ navigation }) => ({
+      title: `${navigation.state.params ? 'À propos' : 'Nouvelle capture'}`,
+    }),
   },
 });
 
