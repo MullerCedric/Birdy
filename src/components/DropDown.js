@@ -38,18 +38,20 @@ class DropDown extends Component {
     const { titleStyle } = styles;
 
     return (
-      <TouchableWithoutFeedback
-        onPress={() => this.onToggleSelected()}
-      >
-        <View>
-          <CardSection>
-            <Text style={titleStyle}>
-              {this.props.title}
-            </Text>
-          </CardSection>
-          {this.renderDescription()}
-        </View>
-      </TouchableWithoutFeedback>
+      <View>
+        <TouchableWithoutFeedback
+          onPress={() => this.onToggleSelected()}
+        >
+          <View>
+            <CardSection>
+              <Text style={titleStyle}>
+                {this.props.title}
+              </Text>
+            </CardSection>
+          </View>
+        </TouchableWithoutFeedback>
+        {this.renderDescription()}
+      </View>
     );
   }
 }

@@ -9,6 +9,7 @@ import {
   SEND_LIST_FAIL,
   FETCH_LISTS,
   CHANGE_EDITABLE,
+  CHANGE_UPDATING_MODE,
   RESET_STATE
 } from './types';
 
@@ -66,7 +67,52 @@ export const sendList = ({ location, catchType, birds }) => {
         });
         console.log('List issue: ' + error);
       });
+  };
+};
 
+export const setEditable = (bool)  => {
+  return {
+    type: CHANGE_EDITABLE,
+    payload: bool
+  };
+};
+
+export const setUpdating = (uid)  => {
+  const { currentUser } = firebase.auth();
+  return (dispatch) => {
+    if ( currentUser.uid === uid ) {
+      dispatch({
+        type: CHANGE_UPDATING_MODE,
+        payload: true
+      });
+    } else {
+      dispatch({
+        type: CHANGE_UPDATING_MODE,
+        payload: false
+      });
+    }
+  };
+};
+
+export const sendUpdatedList = ({ location, catchType, birds, uid }) => {
+  return (dispatch) => {
+    firebase.database().ref(`/lists/${uid}`)
+      .update({
+        location,
+        catchType,
+        birds
+      })
+      .then(() => {
+        dispatch({ type: SEND_LIST_SUCCESS });
+        dispatch(NavigationActions.navigate({ routeName: 'MyLists' }));
+      })
+      .catch((error) => {
+        dispatch({
+          type: SEND_LIST_FAIL,
+          payload: 'Impossible d\'enregister la liste'
+        });
+        console.log('List issue: ' + error);
+      });
   };
 };
 
@@ -76,13 +122,6 @@ export const fetchLists = () => {
       .on('value', snapshot => {
         dispatch({ type: FETCH_LISTS, payload: snapshot.val() });
       });
-  };
-};
-
-export const setEditable = (bool)  => {
-  return {
-    type: CHANGE_EDITABLE,
-    payload: bool
   };
 };
 

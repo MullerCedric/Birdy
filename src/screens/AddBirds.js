@@ -3,7 +3,16 @@ import { ScrollView, Text, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Permissions from 'react-native-permissions'
-import { listChanged, updateLocation, birdAdded, birdsChanged, sendList, setEditable, resetState } from '../actions';
+import { 
+  listChanged,
+  updateLocation,
+  birdAdded,
+  birdsChanged,
+  sendList,
+  setEditable,
+  setUpdating,
+  sendUpdatedList,
+  resetState } from '../actions';
 import { Card, CardSection, Lever, Input, Button } from '../components';
 import DropDown from '../components/DropDown';
 
@@ -18,12 +27,17 @@ class AddBirds extends Component {
   }
 
   componentWillMount() {
-    if(typeof this.props.navigation.state.params !== 'undefined') {
-      this.props.setEditable(false);
 
+    if (typeof this.props.navigation.state.params !== 'undefined') {
       _.each(this.props.navigation.state.params, (value, prop) => {
         this.props.listChanged({ prop, value });
       });
+
+      if (!this.props.isUpdating) {
+        this.props.setEditable(false);
+      } else {
+        this.props.setEditable(true);
+      }
     } else {
       this.props.resetState();
       this.props.setEditable(true);
@@ -66,13 +80,23 @@ class AddBirds extends Component {
             </CardSection>
           );
         case 'sendButton':
-          return (
-            <CardSection>
-              <Button onPress={this.onSendList.bind(this)}>
-                Ajouter cette liste de capture
-              </Button>
-            </CardSection>
-          );
+          if (typeof this.props.navigation.state.params !== 'undefined') {
+            return (
+              <CardSection>
+                <Button onPress={this.onSendUpdatedList.bind(this)}>
+                  Modifier cette liste de capture
+                </Button>
+              </CardSection>
+            );
+          } else {
+            return (
+              <CardSection>
+                <Button onPress={this.onSendList.bind(this)}>
+                  Ajouter cette liste de capture
+                </Button>
+              </CardSection>
+            );
+          }
       }
     }
   }
@@ -103,6 +127,13 @@ class AddBirds extends Component {
     const { location, catchType, birds, sendList } = this.props;
 
     sendList({ location, catchType, birds });
+  }
+
+  onSendUpdatedList() {
+    const { location, catchType, birds, sendUpdatedList } = this.props;
+    const { uid } = this.props.navigation.state.params;
+
+    sendUpdatedList({ location, catchType, birds, uid });
   }
 
   render() {
@@ -255,15 +286,22 @@ const styles = {
 };
 
 const mapStateToProps = ({lists}, ownProps) => {
-  const { location, catchType, error } = lists;
-
-  const isEditable = lists.isEditable;
+  const { location, catchType, error, isEditable, isUpdating } = lists;
 
   const birds = _.map(lists.birds, (val, uid) => {
     return { ...val, uid };
-  });
+  });;
 
-  return { isEditable, location, catchType, birds, error };
+  return { isEditable, isUpdating, location, catchType, birds, error };
 };
 
-export default connect(mapStateToProps, { listChanged, updateLocation, birdAdded, birdsChanged, sendList, setEditable, resetState })(AddBirds);
+export default connect(mapStateToProps, {
+  listChanged,
+  updateLocation,
+  birdAdded,
+  birdsChanged,
+  sendList,
+  setEditable,
+  setUpdating,
+  sendUpdatedList,
+  resetState })(AddBirds);

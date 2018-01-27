@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { fetchLists } from '../actions';
+import { fetchLists, setUpdating } from '../actions';
 import { CardSection } from '../components';
 
 class AllLists extends Component {
   componentWillMount() {
-    console.log('AllLists.js MOUNT ! ');
     this.props.fetchLists();
   }
 
   onListPress(list) {
+    this.props.setUpdating(list.userId);
     this.props.navigation.navigate('AddBirds', { ...list });
   }
 
@@ -69,4 +69,4 @@ const mapStateToProps = ({lists}) => {
   return { existingLists, refreshing };
 };
 
-export default connect(mapStateToProps, { fetchLists })(AllLists);
+export default connect(mapStateToProps, { fetchLists, setUpdating })(AllLists);

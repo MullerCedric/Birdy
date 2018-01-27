@@ -7,11 +7,13 @@ import {
   SEND_LIST_FAIL,
   FETCH_LISTS,
   CHANGE_EDITABLE,
+  CHANGE_UPDATING_MODE,
   RESET_STATE
 } from '../actions/types';
 
 const INITIAL_STATE = {
   isEditable: true,
+  isUpdating: true,
   location: '',
   catchType: '',
   birds: {},
@@ -33,13 +35,15 @@ export default (state = INITIAL_STATE, action) => {
       newState['birds'][action.payload.uid][action.payload.prop] = action.payload.value;
       return newState;
     case SEND_LIST_SUCCESS:
-      return { ...INITIAL_STATE };
+      return { ...INITIAL_STATE, allLists: state.allLists };
     case SEND_LIST_FAIL:
       return { ...state, error: action.payload };
     case FETCH_LISTS:
       return { ...state, allLists: action.payload };
     case CHANGE_EDITABLE:
       return { ...state, isEditable: action.payload };
+    case CHANGE_UPDATING_MODE:
+      return { ...state, isUpdating: action.payload };
     case RESET_STATE:
       return { ...INITIAL_STATE, allLists: state.allLists };
     default:
