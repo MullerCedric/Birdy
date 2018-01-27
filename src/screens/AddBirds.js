@@ -3,8 +3,8 @@ import { ScrollView, Text, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Permissions from 'react-native-permissions'
-import { listChanged, updateLocation, birdAdded, sendList } from '../actions';
-import { Card, CardSection, Input, Button } from '../components';
+import { listChanged, updateLocation, birdAdded, birdsChanged, sendList } from '../actions';
+import { Card, CardSection, Lever, Input, Button } from '../components';
 import DropDown from '../components/DropDown';
 
 class AddBirds extends Component {
@@ -33,6 +33,35 @@ class AddBirds extends Component {
       },
       { enableHighAccuracy: true, timeout: 8000, maximumAge: 1000 },
     );
+  }
+
+  renderButtons(type) {
+    if(this.props.isEditable) {
+      switch (type) {
+        case 'locationButton':
+          return (
+            <Button onPress={this.onMyPos.bind(this)}>
+              Ma position actuelle
+            </Button>
+          );
+        case 'birdButton':
+          return (
+            <CardSection>
+              <Button onPress={this.onNewBirdForm.bind(this)}>
+                Ajouter un oiseau
+              </Button>
+            </CardSection>
+          );
+        case 'sendButton':
+          return (
+            <CardSection>
+              <Button onPress={this.onSendList.bind(this)}>
+                Ajouter cette liste de capture
+              </Button>
+            </CardSection>
+          );
+      }
+    }
   }
 
   onNewBirdForm() {
@@ -72,11 +101,10 @@ class AddBirds extends Component {
               label="Lieu de la capture"
               placeholder="50.4846, 6.254"
               value={this.props.location}
+              editable={this.props.isEditable}
               onChangeText={value => this.props.listChanged({ prop: 'location', value })}
             />
-            <Button onPress={this.onMyPos.bind(this)}>
-              Ma position actuelle
-            </Button>
+            {this.renderButtons('locationButton')}
           </CardSection>
           
           <CardSection>
@@ -84,22 +112,110 @@ class AddBirds extends Component {
               label="Type de capture"
               placeholder="Au filet"
               value={this.props.catchType}
+              editable={this.props.isEditable}
               onChangeText={value => this.props.listChanged({ prop: 'catchType', value })}
             />
           </CardSection>
 
-          <CardSection>
-            <Button onPress={this.onNewBirdForm.bind(this)}>
-              Ajouter un oiseau
-            </Button>
-          </CardSection>
+          {this.renderButtons('birdButton')}
 
 
           <FlatList
             data={this.props.birds}
             extraData={this.props}
             renderItem={({ item }) => (
-              <DropDown bird={ item } />
+              <DropDown title={ '[' + item.ring + '] ' + item.latinName }>
+
+                <CardSection>
+                  <Lever
+                    label="Est-ce une reprise ?"
+                    value={item.caughtBack}
+                    disabled={!this.props.isEditable}
+                    onValueChange={value => this.props.birdsChanged({ uid: item.uid, prop: 'caughtBack', value })}
+                  />
+                </CardSection>
+                
+                <CardSection>
+                  <Input
+                    label="N° de bague"
+                    placeholder="ring"
+                    value={item.ring}
+                    editable={this.props.isEditable}
+                    onChangeText={value => this.props.birdsChanged({ uid: item.uid, prop: 'ring', value })}
+                  />
+                </CardSection>
+                
+                <CardSection>
+                  <Input
+                    label="Nom en latin"
+                    placeholder="Cyanistes caeruleus"
+                    value={item.latinName}
+                    editable={this.props.isEditable}
+                    onChangeText={value => this.props.birdsChanged({ uid: item.uid, prop: 'latinName', value })}
+                  />
+                </CardSection>
+                
+                <CardSection>
+                  <Input
+                    label="Type de bague"
+                    placeholder="En fer"
+                    value={item.ringType}
+                    editable={this.props.isEditable}
+                    onChangeText={value => this.props.birdsChanged({ uid: item.uid, prop: 'ringType', value })}
+                  />
+                </CardSection>
+                
+                <CardSection>
+                  <Input
+                    label="Envergure"
+                    placeholder="24cm"
+                    value={item.wingspan}
+                    editable={this.props.isEditable}
+                    onChangeText={value => this.props.birdsChanged({ uid: item.uid, prop: 'wingspan', value })}
+                  />
+                </CardSection>
+                
+                <CardSection>
+                  <Input
+                    label="Poids"
+                    placeholder="3kg"
+                    value={item.weight}
+                    editable={this.props.isEditable}
+                    onChangeText={value => this.props.birdsChanged({ uid: item.uid, prop: 'weight', value })}
+                  />
+                </CardSection>
+                
+                <CardSection>
+                  <Input
+                    label="Adiposité"
+                    placeholder="Gras"
+                    value={item.adiposity}
+                    editable={this.props.isEditable}
+                    onChangeText={value => this.props.birdsChanged({ uid: item.uid, prop: 'adiposity', value })}
+                  />
+                </CardSection>
+                
+                <CardSection>
+                  <Input
+                    label="Sexe"
+                    placeholder="mâle"
+                    value={item.sex}
+                    editable={this.props.isEditable}
+                    onChangeText={value => this.props.birdsChanged({ uid: item.uid, prop: 'sex', value })}
+                  />
+                </CardSection>
+                
+                <CardSection>
+                  <Input
+                    label="Âge"
+                    placeholder="6 mois"
+                    value={item.age}
+                    editable={this.props.isEditable}
+                    onChangeText={value => this.props.birdsChanged({ uid: item.uid, prop: 'age', value })}
+                  />
+                </CardSection>
+
+              </DropDown>
             )}
             keyExtractor={(item) => item.uid}
           />
@@ -109,11 +225,8 @@ class AddBirds extends Component {
             {this.props.error}
           </Text>
 
-          <CardSection>
-            <Button onPress={this.onSendList.bind(this)}>
-              Ajouter cette liste de capture
-            </Button>
-          </CardSection>
+          {this.renderButtons('sendButton')}
+
         </Card>
       </ScrollView>
     );
@@ -128,14 +241,16 @@ const styles = {
   }
 };
 
-const mapStateToProps = ({lists}) => {
+const mapStateToProps = ({lists}, ownProps) => {
   const { location, catchType, error } = lists;
+
+  const isEditable = lists.isEditable;
 
   const birds = _.map(lists.birds, (val, uid) => {
     return { ...val, uid };
   });
 
-  return { location, catchType, birds, error };
+  return { isEditable, location, catchType, birds, error };
 };
 
-export default connect(mapStateToProps, { listChanged, updateLocation, birdAdded, sendList })(AddBirds);
+export default connect(mapStateToProps, { listChanged, updateLocation, birdAdded, birdsChanged, sendList })(AddBirds);

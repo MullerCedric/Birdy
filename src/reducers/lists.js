@@ -2,7 +2,6 @@ import {
   LIST_CHANGED,
   UPDATE_LOCATION,
   BIRD_ADDED,
-  SELECT_BIRD,
   BIRDS_CHANGED,
   SEND_LIST_SUCCESS,
   SEND_LIST_FAIL,
@@ -10,11 +9,11 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
+  isEditable: true,
   location: '',
   catchType: '',
   birds: {},
   error: '',
-  selectedBird: null,
   allLists: {},
   refreshing: false,
 };
@@ -27,8 +26,6 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, location: action.payload };
     case BIRD_ADDED:
       return { ...state, birds: action.payload };
-    case SELECT_BIRD:
-      return { ...state, selectedBird: action.payload };
     case BIRDS_CHANGED:
       let newState = {...state};
       newState['birds'][action.payload.uid][action.payload.prop] = action.payload.value;

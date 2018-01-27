@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, View, Text } from 'react-native';
 
-const Lever = ({ label, value, onValueChange }) => {
+const Lever = ({ label, value, onValueChange, disabled }) => {
   const { switchStyle, labelStyle, containerStyle } = styles;
 
   return (
@@ -10,6 +10,7 @@ const Lever = ({ label, value, onValueChange }) => {
       <Switch
         style={switchStyle}
         value={value}
+        disabled={disabled}
         onValueChange={onValueChange}
       />
     </View>

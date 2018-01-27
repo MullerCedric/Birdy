@@ -4,11 +4,10 @@ import {
   LIST_CHANGED,
   UPDATE_LOCATION,
   BIRD_ADDED,
-  SELECT_BIRD,
   BIRDS_CHANGED,
   SEND_LIST_SUCCESS,
   SEND_LIST_FAIL,
-  FETCH_LISTS
+  FETCH_LISTS,
 } from './types';
 
 export const listChanged = ({ prop, value }) => {
@@ -29,13 +28,6 @@ export const birdAdded = (birds) => {
   return {
     type: BIRD_ADDED,
     payload: birds
-  };
-};
-
-export const selectBird = (birdUid) => {
-  return {
-    type: SELECT_BIRD,
-    payload: birdUid
   };
 };
 

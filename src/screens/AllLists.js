@@ -10,10 +10,6 @@ class AllLists extends Component {
     this.props.fetchLists();
   }
 
-  onRowPress (bird) {
-    this.props.navigation.navigate('MyLists', { ...bird });
-  }
-
   render() {
     return (
       <FlatList
@@ -21,7 +17,7 @@ class AllLists extends Component {
         renderItem={({ item }) => {
           const captureDate = new Date(item.captureDate);
           return (
-            <TouchableWithoutFeedback onPress={() => this.onRowPress(item)}>
+            <TouchableWithoutFeedback>
               <View>
                 <CardSection>
                   <Text style={styles.titleStyle}>
@@ -45,6 +41,10 @@ const styles = {
   titleStyle: {
     fontSize: 18,
     paddingLeft: 15
+  },
+  descriptionStyle: {
+    paddingLeft: 10,
+    paddingRight: 10
   }
 };
 
