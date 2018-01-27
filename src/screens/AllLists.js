@@ -10,29 +10,40 @@ class AllLists extends Component {
     this.props.fetchLists();
   }
 
+  onListPress(list) {
+    console.log('TATA');
+    this.props.navigation.navigate('AddBirds', { ...list });
+  }
+
+  renderItem({ item }) {
+    const captureDate = new Date(item.captureDate);
+    return (
+      <TouchableWithoutFeedback onPress={() => this.onListPress(item)}>
+        <View>
+          <CardSection>
+            <Text style={styles.titleStyle}>
+              Liste du {captureDate.getDate()}/{captureDate.getMonth() + 1}/{captureDate.getFullYear()}
+             </Text>
+          </CardSection>
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  }
+
   render() {
     return (
-      <FlatList
-        data={this.props.existingLists}
-        renderItem={({ item }) => {
-          const captureDate = new Date(item.captureDate);
-          return (
-            <TouchableWithoutFeedback>
-              <View>
-                <CardSection>
-                  <Text style={styles.titleStyle}>
-                    Liste du {captureDate.getDate()}/{captureDate.getMonth() + 1}/{captureDate.getFullYear()}
-                  </Text>
-                </CardSection>
-              </View>
-            </TouchableWithoutFeedback>
-          );
-        }
-      }
-        keyExtractor={(item) => item.uid}
-        refreshing={this.props.refreshing}
-        onRefresh={this.props.fetchLists}
-      />
+      <View>
+        <FlatList
+          data={this.props.existingLists}
+          renderItem={this.renderItem.bind(this)}
+          keyExtractor={(item) => item.uid}
+          refreshing={this.props.refreshing}
+          onRefresh={this.props.fetchLists}
+        />
+        <CardSection>
+          <Text>Tirez pour raffraîchir</Text>
+        </CardSection>
+      </View>
     );
   }
 }
@@ -50,9 +61,10 @@ const styles = {
 
 const mapStateToProps = ({lists}) => {
   const { allLists, refreshing } = lists;
-  const existingLists = _.map(allLists, (val, uid) => {
+  let existingLists = _.map(allLists, (val, uid) => {
     return { ...val, uid };
   });
+  existingLists.reverse();
 
   return { existingLists, refreshing };
 };

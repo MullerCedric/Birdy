@@ -5,7 +5,8 @@ import {
   BIRDS_CHANGED,
   SEND_LIST_SUCCESS,
   SEND_LIST_FAIL,
-  FETCH_LISTS
+  FETCH_LISTS,
+  CHANGE_EDITABLE
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -36,6 +37,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, error: action.payload };
     case FETCH_LISTS:
       return { ...state, allLists: action.payload };
+    case CHANGE_EDITABLE:
+      return { ...state, isEditable: action.payload };
     default:
       return state;
   }
