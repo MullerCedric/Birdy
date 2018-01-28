@@ -11,7 +11,8 @@ import {
   CHANGE_FILTER,
   CHANGE_EDITABLE,
   CHANGE_UPDATING_MODE,
-  RESET_STATE
+  RESET_STATE,
+  DELETE_LIST_SUCCESS
 } from './types';
 
 export const listChanged = ({ prop, value }) => {
@@ -105,7 +106,7 @@ export const sendUpdatedList = ({ location, catchType, birds, uid }) => {
       })
       .then(() => {
         dispatch({ type: SEND_LIST_SUCCESS });
-        dispatch(NavigationActions.navigate({ routeName: 'MyLists' }));
+        dispatch(NavigationActions.navigate({ routeName: 'AllLists' }));
       })
       .catch((error) => {
         dispatch({
@@ -145,5 +146,23 @@ export const setFilter = (bool)  => {
   return {
     type: CHANGE_FILTER,
     payload: bool
+  };
+};
+
+export const deleteList = ( uid ) => {
+  return (dispatch) => {
+    firebase.database().ref(`/lists/${uid}`)
+      .remove()
+      .then(() => {
+        dispatch({ type: DELETE_LIST_SUCCESS, payload: uid });
+        dispatch(NavigationActions.navigate({ routeName: 'AllLists' }));
+      })
+      .catch((error) => {
+        dispatch({
+          type: SEND_LIST_FAIL,
+          payload: 'Impossible de supprimer la liste'
+        });
+        console.log('List issue: ' + error);
+      });
   };
 };

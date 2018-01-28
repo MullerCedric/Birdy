@@ -9,7 +9,8 @@ import {
   CHANGE_FILTER,
   CHANGE_EDITABLE,
   CHANGE_UPDATING_MODE,
-  RESET_STATE
+  RESET_STATE,
+  DELETE_LIST_SUCCESS
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -52,6 +53,10 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, isUpdating: action.payload };
     case RESET_STATE:
       return { ...INITIAL_STATE, allLists: state.allLists };
+    case DELETE_LIST_SUCCESS:
+      let updatedLists = { ...state.allLists};
+      delete updatedLists[action.payload];
+      return { ...INITIAL_STATE, allLists: updatedLists};
     default:
       return state;
   }

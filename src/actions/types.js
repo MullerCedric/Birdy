@@ -29,3 +29,4 @@ export const CHANGE_FILTER = 'change_filter';
 export const CHANGE_EDITABLE = 'change_editable';
 export const RESET_STATE = 'reset_state';
 export const CHANGE_UPDATING_MODE = 'change_updating_mode';
+export const DELETE_LIST_SUCCESS = 'delete_list_success';

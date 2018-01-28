@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, FlatList } from 'react-native';
+import { ScrollView, Text, FlatList, View } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Permissions from 'react-native-permissions'
@@ -12,11 +12,13 @@ import {
   setEditable,
   setUpdating,
   sendUpdatedList,
-  resetState } from '../actions';
-import { Card, CardSection, Lever, Input, Button } from '../components';
+  resetState,
+  deleteList } from '../actions';
+import { Card, CardSection, Lever, Input, Button, Confirm } from '../components';
 import DropDown from '../components/DropDown';
 
 class AddBirds extends Component {
+  state = { showModal: false };
 
   requestPermission = () => {
     Permissions.request('location').then(response => {
@@ -97,6 +99,26 @@ class AddBirds extends Component {
               </CardSection>
             );
           }
+        case 'deleteButton':
+          if (typeof this.props.navigation.state.params !== 'undefined') {
+            return (
+              <View>
+                <CardSection>
+                  <Button onPress={() => this.setState({ showModal: !this.state.showModal })}>
+                    Supprimer cette liste
+                  </Button>
+                </CardSection>
+
+                <Confirm
+                  visible={this.state.showModal}
+                  onAccept={this.onAccept.bind(this)}
+                  onDecline={this.onDecline.bind(this)}
+                >
+                  Êtes-vous sûr de supprimer cette liste ?
+                </Confirm>
+              </View>
+            );
+          }
       }
     }
   }
@@ -134,6 +156,17 @@ class AddBirds extends Component {
     const { uid } = this.props.navigation.state.params;
 
     sendUpdatedList({ location, catchType, birds, uid });
+  }
+
+  onAccept() {
+    const { uid } = this.props.navigation.state.params;
+    
+    this.setState({ showModal: false });
+    this.props.deleteList(uid);
+  }
+
+  onDecline() {
+    this.setState({ showModal: false });
   }
 
   render() {
@@ -271,7 +304,10 @@ class AddBirds extends Component {
 
           {this.renderButtons('sendButton')}
 
+          {this.renderButtons('deleteButton')}
+
         </Card>
+
       </ScrollView>
     );
   }
@@ -304,4 +340,5 @@ export default connect(mapStateToProps, {
   setEditable,
   setUpdating,
   sendUpdatedList,
-  resetState })(AddBirds);
+  resetState,
+  deleteList })(AddBirds);
