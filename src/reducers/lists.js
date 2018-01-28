@@ -6,6 +6,7 @@ import {
   SEND_LIST_SUCCESS,
   SEND_LIST_FAIL,
   FETCH_LISTS,
+  CHANGE_FILTER,
   CHANGE_EDITABLE,
   CHANGE_UPDATING_MODE,
   RESET_STATE
@@ -14,11 +15,14 @@ import {
 const INITIAL_STATE = {
   isEditable: true,
   isUpdating: true,
+  error: '',
+
   location: '',
   catchType: '',
   birds: {},
-  error: '',
+  
   allLists: {},
+  onlyMine: false,
   refreshing: false,
 };
 
@@ -40,6 +44,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, error: action.payload };
     case FETCH_LISTS:
       return { ...state, allLists: action.payload };
+    case CHANGE_FILTER:
+      return { ...state, onlyMine: action.payload };
     case CHANGE_EDITABLE:
       return { ...state, isEditable: action.payload };
     case CHANGE_UPDATING_MODE:

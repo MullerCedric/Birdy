@@ -8,6 +8,7 @@ import {
   SEND_LIST_SUCCESS,
   SEND_LIST_FAIL,
   FETCH_LISTS,
+  CHANGE_FILTER,
   CHANGE_EDITABLE,
   CHANGE_UPDATING_MODE,
   RESET_STATE
@@ -58,7 +59,7 @@ export const sendList = ({ location, catchType, birds }) => {
       })
       .then(() => {
         dispatch({ type: SEND_LIST_SUCCESS });
-        dispatch(NavigationActions.navigate({ routeName: 'MyLists' }));
+        dispatch(NavigationActions.navigate({ routeName: 'AllLists' }));
       })
       .catch((error) => {
         dispatch({
@@ -116,17 +117,33 @@ export const sendUpdatedList = ({ location, catchType, birds, uid }) => {
   };
 };
 
-export const fetchLists = () => {
+export const fetchLists = (onlyMine) => {
+  const { currentUser } = firebase.auth();
   return (dispatch) => {
-    firebase.database().ref('/lists')
+    if ( onlyMine === true ) {
+      firebase.database().ref('/lists')
+        .orderByChild("userId").equalTo(currentUser.uid)
+        .on('value', snapshot => {
+          dispatch({ type: FETCH_LISTS, payload: snapshot.val() });
+        });
+    } else {
+      firebase.database().ref('/lists')
       .on('value', snapshot => {
         dispatch({ type: FETCH_LISTS, payload: snapshot.val() });
       });
+    }
   };
 };
 
 export const resetState = () => {
   return {
     type: RESET_STATE
+  };
+};
+
+export const setFilter = (bool)  => {
+  return {
+    type: CHANGE_FILTER,
+    payload: bool
   };
 };

@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { fetchLists, setUpdating } from '../actions';
-import { CardSection } from '../components';
+import { fetchLists, setFilter, setUpdating } from '../actions';
+import { CardSection, Lever } from '../components';
 
 class AllLists extends Component {
   componentWillMount() {
-    this.props.fetchLists();
+    this.props.fetchLists(this.props.onlyMine);
+  }
+
+  onChangeFilter(bool) {
+    this.props.setFilter(bool);
+    this.props.fetchLists(bool);
   }
 
   onListPress(list) {
@@ -33,13 +38,22 @@ class AllLists extends Component {
   render() {
     return (
       <View>
-        <FlatList
-          data={this.props.existingLists}
-          renderItem={this.renderItem.bind(this)}
-          keyExtractor={(item) => item.uid}
-          refreshing={this.props.refreshing}
-          onRefresh={this.props.fetchLists}
-        />
+        <CardSection>
+          <Lever
+            label="N'afficher que mes listes"
+            value={this.props.onlyMine}
+            onValueChange={value => this.onChangeFilter(!this.props.onlyMine)}
+          />
+        </CardSection>
+        <CardSection>
+          <FlatList
+            data={this.props.existingLists}
+            renderItem={this.renderItem.bind(this)}
+            keyExtractor={(item) => item.uid}
+            refreshing={this.props.refreshing}
+            onRefresh={() => this.props.fetchLists(this.props.onlyMine)}
+          />
+        </CardSection>
         <CardSection>
           <Text>Tirez pour raffraîchir</Text>
         </CardSection>
@@ -60,13 +74,13 @@ const styles = {
 };
 
 const mapStateToProps = ({lists}) => {
-  const { allLists, refreshing } = lists;
+  const { allLists, onlyMine, refreshing } = lists;
   let existingLists = _.map(allLists, (val, uid) => {
     return { ...val, uid };
   });
   existingLists.reverse();
-
-  return { existingLists, refreshing };
+  
+  return { existingLists, onlyMine, refreshing };
 };
 
-export default connect(mapStateToProps, { fetchLists, setUpdating })(AllLists);
+export default connect(mapStateToProps, { fetchLists, setFilter, setUpdating })(AllLists);

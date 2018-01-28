@@ -25,6 +25,7 @@ export const BIRDS_CHANGED = 'birds_changed';
 export const SEND_LIST_SUCCESS = 'send_list_success';
 export const SEND_LIST_FAIL = 'send_list_fail';
 export const FETCH_LISTS = 'fetch_lists';
+export const CHANGE_FILTER = 'change_filter';
 export const CHANGE_EDITABLE = 'change_editable';
 export const RESET_STATE = 'reset_state';
 export const CHANGE_UPDATING_MODE = 'change_updating_mode';
