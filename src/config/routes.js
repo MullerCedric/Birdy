@@ -8,7 +8,6 @@ import Encyclopedia from '../screens/Encyclopedia';
 import AllLists from '../screens/AllLists';
 
 import AddBirds from '../screens/AddBirds';
-import MyLists from '../screens/MyLists';
 import AboutThatBird from '../screens/AboutThatBird';
 
 export const SignedOutHomeStack = StackNavigator({
@@ -54,13 +53,7 @@ const ListsStack = StackNavigator({
   AllLists: {
     screen: AllLists,
     navigationOptions: {
-      title: 'Toutes les captures',
-    },
-  },
-  MyLists: {
-    screen: MyLists,
-    navigationOptions: {
-      title: 'Mes captures',
+      title: 'Listes des captures',
     },
   },
   AddBirds: {

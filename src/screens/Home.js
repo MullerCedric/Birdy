@@ -9,16 +9,12 @@ class Home extends Component {
     this.props.navigation.navigate('AddBirds');
   };
 
-  onLists = () => {
-    this.props.navigation.navigate('MyLists');
-  };
-
   onSignOut = () => {
     this.props.logoutUser();
     this.props.navigation.navigate('SignedOut');
   };
 
-  renderSignInButton() {
+  renderSignOutButton() {
     if (this.props.loading) {
       return <Spinner size="large" />;
     }
@@ -41,12 +37,8 @@ class Home extends Component {
           onPress={() => this.onAdd()}
           title="Nouvelle session de bagages"
         />
-        <Button
-          onPress={() => this.onLists()}
-          title="Mes captures"
-        />
 
-        {this.renderSignInButton()}
+        {this.renderSignOutButton()}
 
         <Text style={styles.errorTextStyle}>
           {this.props.error}
