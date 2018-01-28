@@ -1,6 +1,6 @@
-#Birdy
+# Birdy
 
-##Fonctionnalités de l'application
+## Fonctionnalités de l'application
 
 - [x] Inscription
     - [x] Avec le système d'authentification de firebase
@@ -25,7 +25,7 @@
     - [x] Ajout d'un nombre illimité d'oiseaux pour une même liste
     - [x] Un oiseau = un menu déroulant pour s'y retrouver plus facilement lorsqu'il y a plusieurs oiseaux, et pouvoir revenir dessus à tout moment
 
-##Dépendances
+## Dépendances
 
 - react-native-permission
     - Pour permettre la géolocalisation
@@ -38,7 +38,7 @@
 - redux & react-redux
 - redux-thunk (middelware)
 
-##Bon à savoir
+## Bon à savoir
 
 - Firebase refuse les mot de passe de moins de 6 caractères
 - Reload le simulateur (_RR_) empêche parfois le bouton de localisation à fonctionner
@@ -55,7 +55,7 @@
     - JS72DZ
     - OI20WS
 
-##Test
+## Test
 
 N'ayant pas les moyens financiers pour un bon ordinateur, je n'ai pu tester que sur un simulateur android.
 
@@ -67,7 +67,7 @@ Configuration de mon simulateur :
 - Android 7.1.1
 - 2Go de RAM
 
-##Firebase
+## Firebase
 Ci-dessous, voici l'export __JSON__ de ma base de donnée firebase
 
 Vous remarquerez que les oiseaux des listes de captures sont des objets imbriqués dans la liste
