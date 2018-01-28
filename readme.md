@@ -1,5 +1,7 @@
 #Birdy
+
 ##Fonctionnalités de l'application
+
 - [x] Inscription
     - [x] Avec le système d'authentification de firebase
     - [x] Vérifie dans la base de donnée si le numéro d'ISN est bien parmi ceux disponibles
@@ -24,6 +26,7 @@
     - [x] Un oiseau = un menu déroulant pour s'y retrouver plus facilement lorsqu'il y a plusieurs oiseaux, et pouvoir revenir dessus à tout moment
 
 ##Dépendances
+
 - react-native-permission
     - Pour permettre la géolocalisation
 - react-navigation
@@ -36,6 +39,7 @@
 - redux-thunk (middelware)
 
 ##Bon à savoir
+
 - Firebase refuse les mot de passe de moins de 6 caractères
 - Reload le simulateur (_RR_) empêche parfois le bouton de localisation à fonctionner
 - Sur certains émulateurs Android (dont le mien), firebase crée des _warning_ régulièrement. D'après Google, on ne peut rien y faire à part rendre les warnings invisibles (ce que j'ai choisi de ne _pas_ faire)
@@ -52,6 +56,7 @@
     - OI20WS
 
 ##Test
+
 N'ayant pas les moyens financiers pour un bon ordinateur, je n'ai pu tester que sur un simulateur android.
 
 Cela m'a semblé être un réel handicap durant le travail, mais à force de temps et de patience, j'ai réussi à mener à bien ce projet
