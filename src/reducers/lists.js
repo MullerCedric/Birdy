@@ -40,6 +40,7 @@ export default (state = INITIAL_STATE, action) => {
       newState['birds'][action.payload.uid][action.payload.prop] = action.payload.value;
       return newState;
     case SEND_LIST_SUCCESS:
+    case RESET_STATE:
       return { ...INITIAL_STATE, allLists: state.allLists };
     case SEND_LIST_FAIL:
       return { ...state, error: action.payload };
@@ -51,8 +52,6 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, isEditable: action.payload };
     case CHANGE_UPDATING_MODE:
       return { ...state, isUpdating: action.payload };
-    case RESET_STATE:
-      return { ...INITIAL_STATE, allLists: state.allLists };
     case DELETE_LIST_SUCCESS:
       let updatedLists = { ...state.allLists};
       delete updatedLists[action.payload];

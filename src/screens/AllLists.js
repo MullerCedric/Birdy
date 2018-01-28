@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
+import firebase from 'firebase';
 import _ from 'lodash';
 import { fetchLists, setFilter, setUpdating } from '../actions';
-import { CardSection, Lever } from '../components';
+import { CardSection, Lever, Button } from '../components';
 
 class AllLists extends Component {
   componentWillMount() {
@@ -17,27 +18,48 @@ class AllLists extends Component {
 
   onListPress(list) {
     this.props.setUpdating(list.userId);
-    this.props.navigation.navigate('AddBirds', { ...list });
+    this.props.navigation.navigate('listForm', { ...list });
   }
 
   renderItem({ item }) {
     const captureDate = new Date(item.captureDate);
-    return (
-      <TouchableWithoutFeedback onPress={() => this.onListPress(item)}>
-        <View>
-          <CardSection>
-            <Text style={styles.titleStyle}>
-              Liste du {captureDate.getDate()}/{captureDate.getMonth() + 1}/{captureDate.getFullYear()}
-             </Text>
-          </CardSection>
-        </View>
-      </TouchableWithoutFeedback>
-    );
+    const { currentUser } = firebase.auth();
+    if (item.userId === currentUser.uid ) {
+      return (
+        <TouchableWithoutFeedback onPress={() => this.onListPress(item)}>
+          <View>
+            <CardSection>
+              <Text style={styles.titleStyle}>
+                Liste du {captureDate.getDate()}/{captureDate.getMonth() + 1}/{captureDate.getFullYear()} *
+               </Text>
+            </CardSection>
+          </View>
+        </TouchableWithoutFeedback>
+      );
+    } else { 
+      return (
+        <TouchableWithoutFeedback onPress={() => this.onListPress(item)}>
+          <View>
+            <CardSection>
+              <Text style={styles.titleStyle}>
+                Liste du {captureDate.getDate()}/{captureDate.getMonth() + 1}/{captureDate.getFullYear()}
+               </Text>
+            </CardSection>
+          </View>
+        </TouchableWithoutFeedback>
+      );
+    }
   }
 
   render() {
     return (
       <View>
+        <CardSection>
+          <Button onPress={() => this.props.navigation.navigate('listForm')} >
+            Nouvelle session de bagages
+          </Button>
+        </CardSection><Text></Text>
+
         <CardSection>
           <Lever
             label="N'afficher que mes listes"
@@ -55,7 +77,12 @@ class AllLists extends Component {
           />
         </CardSection>
         <CardSection>
-          <Text>Tirez pour raffraîchir</Text>
+          <View style={{flex:1}}>
+            <Text>Tirez pour raffraîchir</Text>
+          </View>
+          <View>
+            <Text>* Vos listes</Text>
+          </View>
         </CardSection>
       </View>
     );

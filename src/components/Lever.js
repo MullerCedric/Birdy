@@ -19,12 +19,12 @@ const Lever = ({ label, value, onValueChange, disabled }) => {
 
 const styles = {
   switchStyle: {
-    flex: 2
+    flex: 1
   },
   labelStyle: {
     fontSize: 18,
     paddingLeft: 20,
-    flex: 1
+    flex: 1.5
   },
   containerStyle: {
     height: 40,

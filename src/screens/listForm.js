@@ -17,7 +17,7 @@ import {
 import { Card, CardSection, Lever, Input, Button, Confirm } from '../components';
 import DropDown from '../components/DropDown';
 
-class AddBirds extends Component {
+class listForm extends Component {
   state = { showModal: false };
 
   requestPermission = () => {
@@ -70,7 +70,7 @@ class AddBirds extends Component {
         case 'locationButton':
           return (
             <Button onPress={this.onMyPos.bind(this)}>
-              Ma position actuelle
+              Ma position
             </Button>
           );
         case 'birdButton':
@@ -175,8 +175,8 @@ class AddBirds extends Component {
         <Card>
           <CardSection>
             <Input
-              label="Lieu de la capture"
-              placeholder="50.4846, 6.254"
+              label="Lieu"
+              placeholder={ this.props.isEditable ? '50.4, 6.2' : '/' }
               value={this.props.location}
               editable={this.props.isEditable}
               onChangeText={value => this.props.listChanged({ prop: 'location', value })}
@@ -187,7 +187,7 @@ class AddBirds extends Component {
           <CardSection>
             <Input
               label="Type de capture"
-              placeholder="Au filet"
+              placeholder={ this.props.isEditable ? 'Au filet' : '/' }
               value={this.props.catchType}
               editable={this.props.isEditable}
               onChangeText={value => this.props.listChanged({ prop: 'catchType', value })}
@@ -215,7 +215,7 @@ class AddBirds extends Component {
                 <CardSection>
                   <Input
                     label="N° de bague"
-                    placeholder="ring"
+                    placeholder={ this.props.isEditable ? 'ring' : '/' }
                     value={item.ring}
                     editable={this.props.isEditable}
                     onChangeText={value => this.props.birdsChanged({ uid: item.uid, prop: 'ring', value })}
@@ -225,7 +225,7 @@ class AddBirds extends Component {
                 <CardSection>
                   <Input
                     label="Nom en latin"
-                    placeholder="Cyanistes caeruleus"
+                    placeholder={ this.props.isEditable ? 'Cyanistes caeruleus' : '/' }
                     value={item.latinName}
                     editable={this.props.isEditable}
                     onChangeText={value => this.props.birdsChanged({ uid: item.uid, prop: 'latinName', value })}
@@ -235,7 +235,7 @@ class AddBirds extends Component {
                 <CardSection>
                   <Input
                     label="Type de bague"
-                    placeholder="En fer"
+                    placeholder={ this.props.isEditable ? 'En fer' : '/' }
                     value={item.ringType}
                     editable={this.props.isEditable}
                     onChangeText={value => this.props.birdsChanged({ uid: item.uid, prop: 'ringType', value })}
@@ -245,7 +245,7 @@ class AddBirds extends Component {
                 <CardSection>
                   <Input
                     label="Envergure"
-                    placeholder="24cm"
+                    placeholder={ this.props.isEditable ? '24cm' : '/' }
                     value={item.wingspan}
                     editable={this.props.isEditable}
                     onChangeText={value => this.props.birdsChanged({ uid: item.uid, prop: 'wingspan', value })}
@@ -255,7 +255,7 @@ class AddBirds extends Component {
                 <CardSection>
                   <Input
                     label="Poids"
-                    placeholder="3kg"
+                    placeholder={ this.props.isEditable ? '3kg' : '/' }
                     value={item.weight}
                     editable={this.props.isEditable}
                     onChangeText={value => this.props.birdsChanged({ uid: item.uid, prop: 'weight', value })}
@@ -265,7 +265,7 @@ class AddBirds extends Component {
                 <CardSection>
                   <Input
                     label="Adiposité"
-                    placeholder="Gras"
+                    placeholder={ this.props.isEditable ? 'Gras' : '/' }
                     value={item.adiposity}
                     editable={this.props.isEditable}
                     onChangeText={value => this.props.birdsChanged({ uid: item.uid, prop: 'adiposity', value })}
@@ -275,7 +275,7 @@ class AddBirds extends Component {
                 <CardSection>
                   <Input
                     label="Sexe"
-                    placeholder="mâle"
+                    placeholder={ this.props.isEditable ? 'mâle' : '/' }
                     value={item.sex}
                     editable={this.props.isEditable}
                     onChangeText={value => this.props.birdsChanged({ uid: item.uid, prop: 'sex', value })}
@@ -285,7 +285,7 @@ class AddBirds extends Component {
                 <CardSection>
                   <Input
                     label="Âge"
-                    placeholder="6 mois"
+                    placeholder={ this.props.isEditable ? '6 mois' : '/' }
                     value={item.age}
                     editable={this.props.isEditable}
                     onChangeText={value => this.props.birdsChanged({ uid: item.uid, prop: 'age', value })}
@@ -341,4 +341,4 @@ export default connect(mapStateToProps, {
   setUpdating,
   sendUpdatedList,
   resetState,
-  deleteList })(AddBirds);
+  deleteList })(listForm);

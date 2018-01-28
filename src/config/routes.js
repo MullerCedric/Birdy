@@ -8,7 +8,7 @@ import Home from '../screens/Home';
 import Encyclopedia from '../screens/Encyclopedia';
 import AllLists from '../screens/AllLists';
 
-import AddBirds from '../screens/AddBirds';
+import listForm from '../screens/listForm';
 import AboutThatBird from '../screens/AboutThatBird';
 
 export const SignedOutHomeStack = StackNavigator({
@@ -30,7 +30,7 @@ const SignedInHomeStack = StackNavigator({
   Home: {
     screen: Home,
     navigationOptions: {
-      title: 'Vous êtes connecté !',
+      title: 'Bienvenue !',
     },
   },
 });
@@ -57,8 +57,8 @@ const ListsStack = StackNavigator({
       title: 'Listes des captures',
     },
   },
-  AddBirds: {
-    screen: AddBirds,
+  listForm: {
+    screen: listForm,
     navigationOptions: ({ navigation }) => ({
       title: `${navigation.state.params ? 'À propos' : 'Nouvelle capture'}`,
     }),

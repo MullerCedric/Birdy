@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { logoutUser } from '../actions';
-import { Spinner } from '../components';
+import { Card, CardSection, Spinner, Button } from '../components';
 
 class Home extends Component {
-  onAdd = () => {
-    this.props.navigation.navigate('AddBirds');
-  };
 
   onSignOut = () => {
     this.props.logoutUser();
@@ -20,25 +17,27 @@ class Home extends Component {
     }
 
     return (
-      <Button
-        onPress={this.onSignOut.bind(this)}
-        title="Se déconnecter"
-      />
+      <Button onPress={this.onSignOut.bind(this)}>
+        Se déconnecter
+      </Button>
     );
   }
 
   render() {
     return (
       <View>
-        <Text>
-          PAGE HOME - Tu es connecté
-        </Text>
-        <Button
-          onPress={() => this.onAdd()}
-          title="Nouvelle session de bagages"
-        />
+        <Card>
+          <CardSection>
+            <Button onPress={() => this.props.navigation.navigate('listForm')} size="big">
+              Nouvelle session de bagages{"\n"}
+              (Liste de capture)
+            </Button>
+          </CardSection>
 
-        {this.renderSignOutButton()}
+          <CardSection>
+            {this.renderSignOutButton()}
+          </CardSection>
+        </Card>
 
         <Text style={styles.errorTextStyle}>
           {this.props.error}
@@ -53,7 +52,7 @@ const styles = {
     fontSize: 20,
     alignSelf: 'center',
     color: 'red'
-  }
+  },
 };
 
 const mapStateToProps = ({ auth }) => {

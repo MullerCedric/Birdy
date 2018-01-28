@@ -1,8 +1,7 @@
 import firebase from 'firebase';
 import { NavigationActions } from 'react-navigation';
 import {
-  EMAIL_CHANGED,
-  PASSWORD_CHANGED,
+  AUTH_CHANGED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   LOGGING_USER,
@@ -10,17 +9,10 @@ import {
   LOGOUT_USER_SUCCESS,
 } from './types';
 
-export const emailChanged = (text) => {
+export const authChanged = ({ prop, value }) => {
   return {
-    type: EMAIL_CHANGED,
-    payload: text
-  };
-};
-
-export const passwordChanged = (text) => {
-  return {
-    type: PASSWORD_CHANGED,
-    payload: text
+    type: AUTH_CHANGED,
+    payload: { prop, value }
   };
 };
 

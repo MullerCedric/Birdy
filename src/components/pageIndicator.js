@@ -11,17 +11,10 @@ const styles = {
   },
   tabBar: {
     margin: 5,
-    padding: 5,
-    paddingLeft: 12,
-    paddingRight: 12,
     justifyContent: 'center',
-    backgroundColor: 'white',
     flexWrap: 'wrap', 
     alignItems: 'center',
     flexDirection:'row',
-    borderWidth: 0.5,
-    borderColor: 'rgb(110, 110, 110)',
-    borderRadius: 15,
   },
   tab: {
     margin: 3,
@@ -45,6 +38,7 @@ class pageIndicator extends Component {
     return (
       <View 
         style={tabWithColor}
+        key={route.key}
       >
       </View>
     );

@@ -1,48 +1,16 @@
 import firebase from 'firebase';
 import { NavigationActions } from 'react-navigation';
 import {
-  NEW_EMAIL_CHANGED,
-  NEW_PASSWORD_CHANGED,
-  FIRST_CHANGED,
-  LAST_CHANGED,
-  ISN_CHANGED,
+  REGISTER_CHANGED,
   REGISTERING_USER,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAIL,
 } from '../actions/types';
 
-export const newEmailChanged = (text) => {
+export const registerChanged = ({ prop, value }) => {
   return {
-    type: NEW_EMAIL_CHANGED,
-    payload: text
-  };
-};
-
-export const newPasswordChanged = (text) => {
-  return {
-    type: NEW_PASSWORD_CHANGED,
-    payload: text
-  };
-};
-
-export const firstChanged = (text) => {
-  return {
-    type: FIRST_CHANGED,
-    payload: text
-  };
-};
-
-export const lastChanged = (text) => {
-  return {
-    type: LAST_CHANGED,
-    payload: text
-  };
-};
-
-export const isnChanged = (text) => {
-  return {
-    type: ISN_CHANGED,
-    payload: text
+    type: REGISTER_CHANGED,
+    payload: { prop, value }
   };
 };
 
@@ -53,7 +21,7 @@ export const registerUser = ({ email, password, firstName, lastName, isnNumber }
     // Checks if the isn number exists in the DB before creating an account
     firebase.database().ref(`/isn-number/${isnNumber}`)
       .once('value', snapshot => {;
-        if(!snapshot.val()) {
+        if(!snapshot.val() || isnNumber.length !== 6) {
           registerUserFail(
             dispatch,
             'Le numéro ISN donné n\'est pas attribué'

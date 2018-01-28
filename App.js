@@ -32,7 +32,7 @@ class App extends Component {
             dispatch,
             state: nav
         });
-        return <Navigator navigation={navigation} />/////////////
+        return <Navigator navigation={navigation} />
     }
 }
 
@@ -43,7 +43,7 @@ const RootNavigationStack = connect(mapStateToProps)(App);
 const Root = () => (
     <Provider store={store}>
         <RootNavigationStack />
-    </Provider>///////////////////////////////////
+    </Provider>
 );
 
 export default Root;
