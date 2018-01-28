@@ -1,4 +1,5 @@
 import { StackNavigator, TabNavigator } from 'react-navigation';
+import pageIndicator from '../components/pageIndicator';
 
 import SignIn from '../screens/SignIn';
 import Register from '../screens/Register';
@@ -68,22 +69,17 @@ const MainTabs = TabNavigator( //root-most navigation stack imported in App.js
   {
     SignedInHomeStack: {
       screen: SignedInHomeStack,
-      navigationOptions: {
-        tabBarLabel: 'Connecté',
-      },
     },
     EncyStack: {
       screen: EncyStack,
-      navigationOptions: {
-        tabBarLabel: 'Encyclopédie',
-      },
     },
     ListsStack: {
       screen: ListsStack,
-      navigationOptions: {
-        tabBarLabel: 'Listes',
-      },
     },
+  },
+  {
+    tabBarPosition: 'bottom',
+    tabBarComponent: pageIndicator,
   }
 );
 
